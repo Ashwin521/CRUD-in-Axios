@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { postData } from "../Api/PostApi";
 
-const Form = () => {
+const Form = ({ data, setData }) => {
   const [addData, setAddData] = useState({
     title: "",
     body: "",
@@ -17,9 +18,19 @@ const Form = () => {
       };
     });
   };
+
+  const addPostData = async () => {
+    const res = await postData(addData);
+    console.log("res", res);
+
+    if (res.status === 201) {
+      setData([...data, res.data]);
+      setAddData({ title: "", body: "" });
+    }
+  };
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    // addPostData()
+    addPostData();
   };
   return (
     <>
